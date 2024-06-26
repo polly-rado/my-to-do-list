@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Creative To-Do List / Mi Lista de Tareas</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://yourusername.github.io/my-todo-list/background.png'); /* Replace with your image URL */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #e0f7fa;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background-color 0.3s ease;
+        }
+        li:hover {
+            background-color: #b2ebf2;
+        }
+        .task {
+            font-size: 1.2em;
+            color: #00796b;
+        }
+        .task.completed .task {
+            text-decoration: line-through;
+            color: #004d40;
+        }
+        .task-status {
+            font-size: 0.9em;
+            color: #00695c;
+        }
+        .add-task {
+            display: flex;
+            margin-top: 20px;
+        }
+        .add-task input {
+            flex: 1;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+        }
+        .add-task button {
+            padding: 10px;
+            font-size: 1em;
+            border: none;
+            background-color: #00796b;
+            color: #fff;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        .add-task button:hover {
+            background-color: #004d40;
+        }
+        .complete-btn {
+            background-color: #00796b;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .complete-btn:hover {
+            background-color: #004d40;
+        }
+        .break-section, .read-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .break-section h2, .read-section h2 {
+            color: #333;
+            font-size: 1.5em;
+        }
+        .break-section iframe {
+            width: 100%;
+            height: 315px;
+            border: none;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .read-section a {
+            font-size: 1.2em;
+            color: #00796b;
+            text-decoration: none;
+            border: 2px solid #00796b;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .read-section a:hover {
+            background-color: #00796b;
+            color: #fff;
+        }
+        .language-toggle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .language-toggle button {
+            padding: 10px;
+            font-size: 1em;
+            border: none;
+            background-color: #00796b;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        .language-toggle button:hover {
+            background-color: #004d40;
+        }
+    </style>
+</head>
+<body>
+    <div class="language-toggle">
+        <button onclick="setLanguage('en')">English</button>
+        <button onclick="setLanguage('es')">Español</button>
+    </div>
+    <div class="container">
+        <h1 data-en="My To-Do List" data-es="Mi Lista de Tareas">My To-Do List</h1>
+        <ul id="todo-list">
+            <li>
+                <span class="task" data-en="Buy groceries" data-es="Comprar comestibles">Buy groceries</span> 
+                <span class="task-status" data-en="Pending" data-es="Pendiente">Pending</span>
+                <button class="complete-btn" onclick="toggleComplete(this)" data-en="Complete" data-es="Completar">Complete</button>
+            </li>
+            <li>
+                <span class="task" data-en="Read a book" data-es="Leer un libro">Read a book</span> 
+                <span class="task-status" data-en="In Progress" data-es="En Progreso">In Progress</span>
+                <button class="complete-btn" onclick="toggleComplete(this)" data-en="Complete" data-es="Completar">Complete</button>
+            </li>
+            <li>
+                <span class="task" data-en="Exercise" data-es="Hacer ejercicio">Exercise</span> 
+                <span class="task-status" data-en="Completed" data-es="Completado">Completed</span>
+                <button class="complete-btn" onclick="toggleComplete(this)" data-en="Complete" data-es="Completar">Complete</button>
+            </li>
+        </ul>
+        <div class="add-task">
+            <input type="text" id="new-task" placeholder="Add a new task..." data-en="Add a new task..." data-es="Agregar una nueva tarea...">
+            <button onclick="addTask()" data-en="Add Task" data-es="Agregar Tarea">Add Task</button>
+        </div>
+        <div class="break-section">
+            <h2 data-en="Need a break? Listen to some music" data-es="¿Necesitas un descanso? Escucha algo de música">Need a break? Listen to some music</h2>
+            <iframe src="https://www.youtube.com/embed/HNybmS3xNAQ?si=sdSpQYN2oFKxt-Ca" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="read-section">
+            <h2 data-en="Time for a read?" data-es="¿Hora de leer?">Time for a read?</h2>
+            <a href="https://www.audible.com/library/titles?ref_pageloadid=not_applicable&ref=a_hp_t1_navTop_pl0&pf_rd_p=e11756d5-b871-4c67-975f-0061a067e493&pf_rd_r=N1RF6C80BK513G4BHXXX&pageLoadId=DuYcaL8itTzluCEj&creativeId=a5ac87d6-d218-4a97-8f3c-e1a3d7b98977" target="_blank" data-en="My Library" data-es="Mi Biblioteca">My Library</a>
+        </div>
+    </div>
+
+    <script>
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            const elements = document.querySelectorAll('[data-en], [data-es]');
+            elements.forEach(element => {
+                element.textContent = element.getAttribute(`data-${lang}`);
+                if (element.placeholder) {
+                    element.placeholder = element.getAttribute(`data-${lang}`);
+                }
+            });
+        }
+
+        async function translateText(text, targetLang) {
+            const response = await fetch(`https://libretranslate.de/translate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    q: text,
+                    source: 'en',
+                    target: targetLang,
+                    format: 'text'
+                })
+            });
+            const data = await response.json();
+            return data.translatedText;
+        }
+
+        async function addTask() {
+            const taskInput = document.getElementById('new-task');
+            const taskTextEn = taskInput.value.trim();
+            if (taskTextEn) {
+                const taskTextEs = await translateText(taskTextEn, 'es');
+                const ul = document.getElementById('todo-list');
+                const li = document.createElement('li');
+                li.innerHTML = `<span class="task" data-en="${taskTextEn}" data-es="${taskTextEs}">${taskTextEn}</span> <span class="task-status" data-en="Pending" data-es="Pendiente">Pending</span> <button class="complete-btn" onclick="toggleComplete(this)" data-en="Complete" data-es="Completar">Complete</button>`;
+                ul.appendChild(li);
+                taskInput.value = '';
+            }
+        }
+
+        function toggleComplete(button) {
+            const li = button.parentElement;
+            const status = li.querySelector('.task-status');
+            
+            if (status.textContent.includes('Completed') || status.textContent.includes('Completado')) {
+                status.setAttribute('data-en', 'Pending');
+                status.setAttribute('data-es', 'Pendiente');
+                li.classList.remove('completed');
+            } else {
+                status.setAttribute('data-en', 'Completed');
+                status.setAttribute('data-es', 'Completado');
+                li.classList.add('completed');
+            }
+            setLanguage(document.documentElement.lang);  // Update text to current language
+        }
+
+        // Set default language to English on page load
+        document.addEventListener("DOMContentLoaded", function() {
+            setLanguage('en');
+        });
+    </script>
+</body>
+</html>
